@@ -1,0 +1,392 @@
+<body>
+
+  <!-- ----- header ----- -->
+  <header>
+      <div class="navbar">
+        <div class="logo"><a [routerLink]="['/home']"><img src="assets/images/logo.jpg" alt="logo"></a></div>
+
+        <ul class="links" [class.active]="menuOpen">
+          <li><a href="#" class="active">الرئيسية</a></li>
+          <li><a  (click)="scrollToSection('menuu')">قائمة الطعام</a></li>
+          <li><a  (click)="scrollToSection('location')">مكانا فين ؟</a></li>
+        </ul>
+
+        <a href="https://wa.me/201117495026" class="action-btn" target="_blank"><i class="fa-brands fa-whatsapp"></i> تواصل معنا علي واتساب </a>
+
+
+        <div class="toggle-btn" (click)="toggleMenu()">
+          <i [ngClass]="menuOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars'"></i>
+        </div>
+      </div>
+
+      <div class="dropdown-menu" [class.open]="menuOpen">
+        <li><a href="#">الرئيسية</a></li>
+        <li><a  (click)="scrollToSection('menuu')">قائمة الطعام</a></li>
+        <li><a  (click)="scrollToSection('location')">مكانا فين ؟</a></li>
+        <li><a href="https://wa.me/201117495026" class="action-btn" target="_blank"> <i class="fa-brands fa-whatsapp"></i> تواصل معنا علي واتساب</a></li>
+      </div>
+  </header>
+
+
+  <!-- ----- hero ----- -->
+  <div class="hero" [style.background-image]="'linear-gradient(rgba(4, 9, 30, 0.7), rgba(4, 9, 30, 0.7)), url(assets/images/home.png)'">
+      <div class="hero-title">
+        <h4>مطعم ومشويات</h4>
+        <h1>سيد الأكيل</h1>
+        <p>للصنعة ... أصول</p>
+      </div>    
+
+        <div class="info">
+            <div><i class="fa fa-phone-volume"></i> 01016806291</div>
+            <div><i class="fa-brands fa-whatsapp"></i> 01117495025</div>
+            <div><i class="fa fa-phone-volume"></i> 01206496939</div>
+
+            <div class="loc">
+                <i class="fa fa-location-dot"></i>
+                <div>مول الفيوتشر الدور الارضي اسكان المستقبل 63 -مدينة الشروق</div>
+            </div>
+        </div>
+  </div>
+
+
+
+  <section class="marquee-div">
+      <!-- <div class="marquee-header">عروض</div> -->
+      <marquee behavior="scroll" direction="right" class="offers-strip">
+        عروض اليوم: خصم 10% على طبق سمبوسة لحمة 5 قطع - طبق سمبوسة لحمة 5 قطع + طبق سمبوسة لحمة 5 قطع + طبق سمبوسة لحمة 5 قطع - طبق سمبوسة لحمة 5 قطع!
+      </marquee>
+  </section>
+
+
+
+
+  <div class="slider-wrapper card-zoom-in">
+  <div class="card-list">
+    <div
+      class="card-item"
+      *ngFor="let img of getVisibleSlides()"
+    >
+      <img [src]="img" class="card-image" />
+    </div>
+  </div>
+
+  <button class="arrow left" (click)="prev()"><i class="fa fa-arrow-circle-left"></i></button>
+  <button class="arrow right" (click)="next()"><i class="fa fa-arrow-circle-right"></i></button>
+  </div>
+
+
+
+  <div class="categories" id="menuu">
+  <section class="menu-section">
+    <h4>أقسام الطعام</h4>
+    <div class="items">
+      <div class="item" *ngFor="let category of menu" (click)="scrollToSection(category.title)">
+        <h5>{{ category.title }}</h5>
+      </div>
+    </div>
+  </section>
+  </div>
+
+
+
+<!-- ----- menu ----- -->
+  <section class="menu-content">
+
+    <div class="row">
+
+      <!-- مشاوي -->
+      <div class="menu-right card-rtl" id="ركن المشاوي">
+        <h3>ركن المشاوي</h3>      
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>ربع</th>
+              <th>نص</th>
+              <th>كيلو</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of getCategoryItems('ركن المشاوي')">
+              <td>
+                {{ item.name }}
+                <p class="item-desc" *ngIf="item.description">{{ item.description }}</p>
+              </td>
+              <td>{{ item.price['ربع'] || '-' }}</td>
+              <td>{{ item.price['نص'] || '-' }}</td>
+              <td>{{ item.price['كيلو'] || '-' }}</td>
+            </tr>
+          </tbody>
+          <tfoot *ngIf="getCategoryNote('ركن المشاوي')">
+            <tr>
+              <td colspan="4" class="table-note">
+                {{ getCategoryNote('ركن المشاوي') }}
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+     <!-- الوجبات  -->
+      <div class="menu-right card-rtl" id="ركن الوجبات">
+        <h3>ركن الوجبات</h3>      
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of getCategoryItems('ركن الوجبات')">
+              <td class="name-block">
+                {{ item.name }}
+                <p class="item-desc" *ngIf="item.description">{{ item.description }}</p>
+              </td>
+              <td>{{ item.price[''] || '-' }}</td>
+            </tr>
+          </tbody>
+          <tfoot *ngIf="getCategoryNote('ركن الوجبات')">
+            <tr>
+              <td colspan="4" class="table-note">
+                {{ getCategoryNote('ركن الوجبات') }}
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+
+      <!--  -->
+      <div class="menu-right card-rtl" id="السندوتشات">
+        <h3>السندوتشات</h3>      
+        <table class="custom-table"  style="text-align: center;">
+          <thead>
+            <tr>
+              <th></th>
+              <th>كيزر</th>
+              <th>وسط</th>
+              <th>كبير</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of getCategoryItems('السندوتشات')">
+              <td>
+                {{ item.name }}
+                <p class="item-desc" *ngIf="item.description">{{ item.description }}</p>
+              </td>
+              <td>{{ item.price['كيزر'] || '-' }}</td>
+              <td>{{ item.price['وسط'] || '-' }}</td>
+              <td>{{ item.price['كبير'] || '-' }}</td>
+            </tr>
+          </tbody>
+          <tfoot *ngIf="getCategoryNote('السندوتشات')">
+            <tr>
+              <td colspan="4" class="table-note">
+                {{ getCategoryNote('السندوتشات') }}
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+
+     <!--الفراخ والحمام  -->
+      <div class="menu-right card-rtl" id="ركن الفراخ والحمام">
+        <h3>ركن الفراخ والحمام</h3>      
+        <table class="custom-table"  style="text-align: center;">
+          <thead>
+            <tr>
+              <th></th>
+              <th>ربع</th>
+              <th>نص</th>
+              <th>فرخة</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of getCategoryItems('ركن الفراخ والحمام')">
+              <td>
+                {{ item.name }}
+                <p class="item-desc" *ngIf="item.description">{{ item.description }}</p>
+              </td>
+              <td>{{ item.price['ربع'] || '-' }}</td>
+              <td>{{ item.price['نص'] || '-' }}</td>
+              <td>{{ item.price['فرخة'] || '-' }}</td>
+            </tr>
+          </tbody>
+          <tfoot *ngIf="getCategoryNote('ركن الفراخ والحمام')">
+            <tr>
+              <td colspan="4" class="table-note">
+                {{ getCategoryNote('ركن الفراخ والحمام') }}
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+
+      <div class="menu-right card-rtl" id="الحواوشي">
+        <h3>الحواوشي</h3>      
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>بلدي</th>
+              <th>سوري ص</th>
+              <th>سوري ك</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of getCategoryItems('الحواوشي')">
+              <td>
+                {{ item.name }}
+                <p class="item-desc" *ngIf="item.description">{{ item.description }}</p>
+              </td>
+              <td>{{ item.price['بلدي'] || '-' }}</td>
+              <td>{{ item.price['سوري ص'] || '-' }}</td>
+              <td>{{ item.price['سوري ك'] || '-' }}</td>
+            </tr>
+          </tbody>
+          <tfoot *ngIf="getCategoryNote('الحواوشي')">
+            <tr>
+              <td colspan="4" class="table-note">
+                {{ getCategoryNote('الحواوشي') }}
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+
+
+      <div class="menu-right card-rtl" id="الطواجن">
+        <h3>الطواجن</h3>      
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>بلدي</th>
+              <th>سوري ص</th>
+              <th>سوري ك</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of getCategoryItems('الحواوشي')">
+              <td>
+                {{ item.name }}
+                <p class="item-desc" *ngIf="item.description">{{ item.description }}</p>
+              </td>
+              <td>{{ item.price['بلدي'] || '-' }}</td>
+              <td>{{ item.price['سوري ص'] || '-' }}</td>
+              <td>{{ item.price['سوري ك'] || '-' }}</td>
+            </tr>
+          </tbody>
+          <tfoot *ngIf="getCategoryNote('الحواوشي')">
+            <tr>
+              <td colspan="4" class="table-note">
+                {{ getCategoryNote('الحواوشي') }}
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+
+      <div class="menu-right card-rtl" id="السلطات">
+        <h3>السلطات</h3>      
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>بلدي</th>
+              <th>سوري ص</th>
+              <th>سوري ك</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of getCategoryItems('الحواوشي')">
+              <td>
+                {{ item.name }}
+                <p class="item-desc" *ngIf="item.description">{{ item.description }}</p>
+              </td>
+              <td>{{ item.price['بلدي'] || '-' }}</td>
+              <td>{{ item.price['سوري ص'] || '-' }}</td>
+              <td>{{ item.price['سوري ك'] || '-' }}</td>
+            </tr>
+          </tbody>
+          <tfoot *ngIf="getCategoryNote('الحواوشي')">
+            <tr>
+              <td colspan="4" class="table-note">
+                {{ getCategoryNote('الحواوشي') }}
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+
+      <div class="menu-right card-rtl" id="المشروبات">
+        <h3>المشروبات</h3>      
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>بلدي</th>
+              <th>سوري ص</th>
+              <th>سوري ك</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of getCategoryItems('الحواوشي')">
+              <td>
+                {{ item.name }}
+                <p class="item-desc" *ngIf="item.description">{{ item.description }}</p>
+              </td>
+              <td>{{ item.price['بلدي'] || '-' }}</td>
+              <td>{{ item.price['سوري ص'] || '-' }}</td>
+              <td>{{ item.price['سوري ك'] || '-' }}</td>
+            </tr>
+          </tbody>
+          <tfoot *ngIf="getCategoryNote('الحواوشي')">
+            <tr>
+              <td colspan="4" class="table-note">
+                {{ getCategoryNote('الحواوشي') }}
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+    </div>
+
+  </div>
+       
+  </section>
+
+
+  <div class="location-block">
+      
+    <div id="location">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d20635544.32246719!2d56.75717540679751!3d26.76396099676411!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14f7f10c28fd80f7%3A0xb21c8c142a3e3caa!2z2YXYt9i52YUg2KfZhNin2YPZitmE!5e0!3m2!1sar!2seg!4v1754077919869!5m2!1sar!2seg" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>      
+
+  </div>
+ 
+
+  <!-- ----- Footer ----- -->
+  <section class="footer">
+      <h4>About Us</h4>
+      <p> مطعم سيد الأكيل - للصنعة أصول <br> بنقدم جميع انواع الطعام المشوي والمقلي</p>
+
+      <div class="icons">
+          <i class="fa-brands fa-facebook-f"></i>
+          <i class="fa-brands fa-twitter"></i>
+          <i class="fa-brands fa-instagram"></i>
+          <i class="fa-brands fa-linkedin-in"></i>
+      </div>
+
+      <p>Made with <i class="far fa-heart"></i></p>
+
+  </section>  
+
+
+
+</body>
